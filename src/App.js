@@ -15,7 +15,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React
+          Its a covid 19 tracker
         </a>
       </header>
     </div>
