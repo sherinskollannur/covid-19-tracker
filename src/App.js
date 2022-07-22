@@ -9,6 +9,7 @@ import './App.css';
 import React, { useState, useEffect } from 'react';
 import InfoBox from './components/InfoBox';
 import Map from './components/Map';
+import Table from './components/Table';
 
 function App() {
   const [countries, setCountries] = useState([]);
@@ -90,7 +91,7 @@ function App() {
       <div className="app__right">
         <Card>
           <CardContent>
-            <h2>Total cases</h2>
+            <Table />
             <h2>Graph</h2>
           </CardContent>
         </Card>
