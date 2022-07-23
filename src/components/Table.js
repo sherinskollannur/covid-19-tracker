@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './Table.css';
+import { sortData } from '../utils/utils';
 
 function Table() {
   const [countries, setCountries] = useState([]);
@@ -8,7 +9,8 @@ function Table() {
     fetch(`https://disease.sh/v3/covid-19/countries`)
       .then((res) => res.json())
       .then((data) => {
-        setCountries(data);
+        const sortedData = sortData(data);
+        setCountries(sortedData);
       });
   }, []);
 

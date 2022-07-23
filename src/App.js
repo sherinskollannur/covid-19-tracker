@@ -10,6 +10,7 @@ import React, { useState, useEffect } from 'react';
 import InfoBox from './components/InfoBox';
 import Map from './components/Map';
 import Table from './components/Table';
+import LineGraph from './components/LineGraph';
 
 function App() {
   const [countries, setCountries] = useState([]);
@@ -92,7 +93,7 @@ function App() {
         <Card>
           <CardContent>
             <Table />
-            <h2>Graph</h2>
+            <LineGraph />
           </CardContent>
         </Card>
       </div>
