@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Line } from 'react-chartjs-2';
 import numeral from 'numeral';
+import { Chart as ChartJS } from 'chart.js/auto';
 
 const options = {
   legend: {
@@ -21,30 +22,46 @@ const options = {
       },
     },
   },
-  scales: {
-    xAxes: [
-      {
-        type: 'time',
-        time: {
-          format: 'MM/DD/YY',
-          tooltipFormat: 'll',
-        },
-      },
-    ],
-    yAxes: [
-      {
-        gridLines: {
-          display: false,
-        },
-        ticks: {
-          // Include a dollar sign in the ticks
-          callback: function (value, index, values) {
-            return numeral(value).format('0a');
-          },
-        },
-      },
-    ],
-  },
+  //   scales: {
+  //     xAxes: [
+  //       {
+  //         type: 'time',
+  //         time: {
+  //           format: 'MM/DD/YY',
+  //           tooltipFormat: 'll',
+  //         },
+  //       },
+  //     ],
+  //     yAxes: [
+  //       {
+  //         gridLines: {
+  //           display: false,
+  //         },
+  //         ticks: {
+  //           // Include a dollar sign in the ticks
+  //           callback: function (value, index, values) {
+  //             return numeral(value).format('0a');
+  //           },
+  //         },
+  //       },
+  //     ],
+  //   },
+};
+
+const buildChartData = (data, casesType) => {
+  let chartData = [];
+  let lastDataPoint;
+  for (let date in data.cases) {
+    if (lastDataPoint) {
+      let newDataPoint = {
+        x: date,
+        y: data[casesType][date] - lastDataPoint,
+      };
+      chartData.push(newDataPoint);
+    }
+    lastDataPoint = data[casesType][date];
+  }
+  return chartData;
 };
 
 function LineGraph() {
@@ -65,22 +82,6 @@ function LineGraph() {
   //     return newCases;
   //   };
 
-  const buildChartData = (data, casesType) => {
-    let chartData = [];
-    let lastDataPoint;
-    for (let date in data.cases) {
-      if (lastDataPoint) {
-        let newDataPoint = {
-          x: date,
-          y: data[casesType][date] - lastDataPoint,
-        };
-        chartData.push(newDataPoint);
-      }
-      lastDataPoint = data[casesType][date];
-    }
-    return chartData;
-  };
-
   useEffect(() => {
     const fetchData = async () => {
       await fetch('https://disease.sh/v3/covid-19/historical/all?lastdays=120')
@@ -95,13 +96,13 @@ function LineGraph() {
   }, []);
 
   return (
-    <div>
-      asdsad
+    <div style={{ height: '200px' }}>
       {data?.length > 0 && (
         <Line
           data={{
             datasets: [
               {
+                label: 'WorldWide new cases',
                 backgroundColor: 'rgba(204, 16, 52, 0.5)',
                 borderColor: '#CC1034',
                 data: data,
