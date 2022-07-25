@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Line } from 'react-chartjs-2';
 import numeral from 'numeral';
 import { Chart as ChartJS } from 'chart.js/auto';
+import './LineGraph.css';
 
 const options = {
   legend: {
@@ -96,7 +97,8 @@ function LineGraph() {
   }, []);
 
   return (
-    <div style={{ height: '200px' }}>
+    <div className="chartStyle">
+      <h3>WorlWide New Cases</h3>
       {data?.length > 0 && (
         <Line
           data={{

@@ -11,11 +11,14 @@ import InfoBox from './components/InfoBox';
 import Map from './components/Map';
 import Table from './components/Table';
 import LineGraph from './components/LineGraph';
+import 'leaflet/dist/leaflet.css';
 
 function App() {
   const [countries, setCountries] = useState([]);
   const [country, setCountry] = useState('WorldWide');
   const [dataByCountry, setDataByCountry] = useState({});
+  const [mapCenter, setMapCenter] = useState([34.80746, -40.4796]);
+  const [mapZoom, setMapZoom] = useState(3);
 
   const countryInfoFetch = async (countryCode) => {
     await fetch(
@@ -25,7 +28,16 @@ function App() {
     )
       .then((res) => res.json())
       .then((data) => {
+        if (countryCode === 'WorldWide') {
+          setMapCenter([34.80746, -40.4796]);
+        } else {
+          setMapCenter([data.countryInfo.lat, data.countryInfo.long]);
+        }
+
+        // setMapCenter([51.505, -0.09]);
+        setMapZoom(4);
         setDataByCountry(data);
+        console.log('latitude', data.countryInfo.lat);
       });
   };
 
@@ -47,7 +59,8 @@ function App() {
     countryInfoFetch('WorldWide');
   }, []);
 
-  const onCountryChange = async (e) => {
+  const onCountryChange = (e) => {
+    // e.prevent.default();
     setCountry(e.target.value);
     countryInfoFetch(e.target.value);
   };
@@ -87,7 +100,7 @@ function App() {
             total={dataByCountry.deaths}
           />
         </div>
-        <Map />
+        <Map center={mapCenter} zoom={mapZoom} />
       </div>
       <div className="app__right">
         <Card>
