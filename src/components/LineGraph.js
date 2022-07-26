@@ -52,8 +52,8 @@ const options = {
 const buildChartData = (data, casesType) => {
   let chartData = [];
   let lastDataPoint;
-  for (let date in data.cases) {
-    if (lastDataPoint) {
+  for (let date in data[casesType]) {
+    if (lastDataPoint >= 0) {
       let newDataPoint = {
         x: date,
         y: data[casesType][date] - lastDataPoint,
@@ -65,7 +65,7 @@ const buildChartData = (data, casesType) => {
   return chartData;
 };
 
-function LineGraph() {
+function LineGraph({ caseType }) {
   const [data, setData] = useState({});
 
   //   const buildChartData = (datas, caseType = 'cases') => {
@@ -88,17 +88,17 @@ function LineGraph() {
       await fetch('https://disease.sh/v3/covid-19/historical/all?lastdays=120')
         .then((res) => res.json())
         .then((datas) => {
-          const chartData = buildChartData(datas, 'cases');
+          const chartData = buildChartData(datas, caseType);
           console.log('chartData', chartData);
           setData(chartData);
         });
     };
     fetchData();
-  }, []);
+  }, [caseType]);
 
   return (
     <div className="chartStyle">
-      <h3>WorlWide New Cases</h3>
+      <h3>WorlWide New {caseType}</h3>
       {data?.length > 0 && (
         <Line
           data={{

@@ -19,6 +19,8 @@ function App() {
   const [dataByCountry, setDataByCountry] = useState({});
   const [mapCenter, setMapCenter] = useState([34.80746, -40.4796]);
   const [mapZoom, setMapZoom] = useState(3);
+  const [mapCountries, setMapCountries] = useState([]);
+  const [caseTypeVal, setCaseTypeVal] = useState('cases');
 
   const countryInfoFetch = async (countryCode) => {
     await fetch(
@@ -52,6 +54,7 @@ function App() {
             case: country.cases,
           }));
           setCountries(countriesData);
+          setMapCountries(data);
         });
     };
 
@@ -85,28 +88,47 @@ function App() {
         </div>
         <div className="app__stats">
           <InfoBox
-            title={'Coronavirus Cases'}
+            isRed
+            active={caseTypeVal === 'cases'}
+            title={'Coronavirus cases'}
             cases={dataByCountry.todayCases}
             total={dataByCountry.cases}
+            onClick={(e) => {
+              setCaseTypeVal('cases');
+            }}
           />
           <InfoBox
+            active={caseTypeVal === 'recovered'}
             title={'Recovered'}
             cases={dataByCountry.todayRecovered}
             total={dataByCountry.recovered}
+            onClick={(e) => {
+              setCaseTypeVal('recovered');
+            }}
           />
           <InfoBox
+            isRed
+            active={caseTypeVal === 'deaths'}
             title={'Deaths'}
             cases={dataByCountry.todayDeaths}
             total={dataByCountry.deaths}
+            onClick={(e) => {
+              setCaseTypeVal('deaths');
+            }}
           />
         </div>
-        <Map center={mapCenter} zoom={mapZoom} />
+        <Map
+          center={mapCenter}
+          zoom={mapZoom}
+          countries={mapCountries}
+          caseType={caseTypeVal}
+        />
       </div>
       <div className="app__right">
         <Card>
           <CardContent>
             <Table />
-            <LineGraph />
+            <LineGraph caseType={caseTypeVal} />
           </CardContent>
         </Card>
       </div>
