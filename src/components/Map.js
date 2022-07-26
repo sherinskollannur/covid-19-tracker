@@ -7,35 +7,20 @@ import {
 } from 'react-leaflet';
 import './Map.css';
 import 'leaflet/dist/leaflet.css';
+import { showDataOnMap } from '../utils/utils';
 
-function Map({ center, zoom }) {
+const Onclick = ({ map, center, zoom }) => {
+  useEffect(() => {
+    map.setView(center, zoom);
+  }, [center]);
+};
+
+function Map({ center, zoom, countries, caseType }) {
   const [map, setMap] = useState(null);
-  console.log('center', map);
 
-  const onClick = () => {
+  const onClick = (map, center, zoom) => {
     map.setView(center, zoom);
   };
-
-  const displayMap = useMemo(
-    () => (
-      <LeafletMap
-        center={center}
-        zoom={zoom}
-        scrollWheelZoom={false}
-        ref={setMap}
-      >
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-      </LeafletMap>
-    ),
-    [center]
-  );
-
-  setTimeout(() => {
-    onClick();
-  }, 200);
 
   return (
     <div className="map">
@@ -49,7 +34,13 @@ function Map({ center, zoom }) {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
+        {showDataOnMap(countries, caseType)}
       </LeafletMap>
+      {/* onClick function calling */}
+      {/* {map !== null && onClick(map, center, zoom)} */}
+
+      {/* Onclick component calling */}
+      {map !== null && <Onclick center={center} zoom={zoom} map={map} />}
     </div>
   );
 }
