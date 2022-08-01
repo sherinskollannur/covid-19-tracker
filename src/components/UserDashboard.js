@@ -14,11 +14,18 @@ import ListItemText from '@mui/material/ListItemText';
 import './UserDashboard.css';
 import styled from '@emotion/styled';
 import VaccineInfoTable from './VaccineInfoTable';
+import { Route } from 'react-router-dom';
+import OrderHistory from './OrderHistory';
+import ContactUs from './ContactUs';
+import { useHistory } from 'react-router-dom';
+import DonateInfo from './DonateInfo';
 
 const drawerWidth = 240;
 export default function UserDashboard(props) {
   const [sliderBtnActive, setSliderBtnActive] =
     React.useState('Vaccine  Needed');
+
+  const history = useHistory();
 
   const Classes = styled(Toolbar)({
     backgroundColor: '#8f0909',
@@ -83,6 +90,19 @@ export default function UserDashboard(props) {
                     }
                     onClick={(e) => {
                       setSliderBtnActive(text);
+
+                      let routeVal;
+                      if (text === 'Vaccine  Needed') {
+                        routeVal = '/user_dashboard';
+                      }
+                      if (text === 'Order History') {
+                        routeVal = '/user_dashboard/order_history';
+                      }
+                      if (text === 'Contact Us') {
+                        routeVal = '/user_dashboard/contact_us';
+                      }
+
+                      history.push(routeVal);
                     }}
                   >
                     <ListItemText primary={text} />
@@ -109,7 +129,19 @@ export default function UserDashboard(props) {
           sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}
         >
           <Toolbar />
-          <VaccineInfoTable />
+
+          <Route path="/user_dashboard" exact>
+            <VaccineInfoTable />
+          </Route>
+          <Route path="/user_dashboard/order_history">
+            <OrderHistory />
+          </Route>
+          <Route path="/user_dashboard/contact_us">
+            <ContactUs />
+          </Route>
+          <Route path="/user_dashboard/donate_info">
+            <DonateInfo />
+          </Route>
         </Box>
       </Box>
     </>

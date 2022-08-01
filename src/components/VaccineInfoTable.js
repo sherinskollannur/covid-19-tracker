@@ -8,6 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import { Button } from '@mui/material';
+import { useHistory } from 'react-router-dom';
 
 const columns = [
   { id: 'Country', label: 'Country', minWidth: 170 },
@@ -42,6 +43,8 @@ const rows = [
 ];
 
 function VaccineInfoTable() {
+  const history = useHistory();
+
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -110,7 +113,15 @@ function VaccineInfoTable() {
                           color="success"
                           width="10px"
                           onClick={() => {
-                            alert(row.Country);
+                            // alert(row.Country);
+                            history.push({
+                              pathname: '/user_dashboard/donate_info',
+                              state: {
+                                country: row.Country,
+                                vaccine: row.Vaccine,
+                                price: 300,
+                              },
+                            });
                           }}
                         >
                           Donate
