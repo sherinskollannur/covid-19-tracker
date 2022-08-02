@@ -12,8 +12,12 @@ import {
   CardContent,
 } from '@mui/material';
 import '../App.css';
+import { Button } from '@mui/material';
+import { useHistory } from 'react-router-dom';
 
 function CovidDashboard() {
+  const history = useHistory();
+
   const [countries, setCountries] = useState([]);
   const [country, setCountry] = useState('WorldWide');
   const [dataByCountry, setDataByCountry] = useState({});
@@ -69,70 +73,100 @@ function CovidDashboard() {
   };
 
   return (
-    <div className="app">
-      <div className="app__left">
-        <div className="app__header">
-          <h1>Welcome to covid 19 tracker</h1>
-          <FormControl className="app__dropdown">
-            <Select
-              variant="outlined"
-              value={country}
-              onChange={onCountryChange}
-            >
-              <MenuItem value={'WorldWide'}>WorldWide</MenuItem>
-              {countries.map((country) => (
-                <MenuItem value={country.name}>{country.name}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </div>
-        <div className="app__stats">
-          <InfoBox
-            isRed
-            active={caseTypeVal === 'cases'}
-            title={'Coronavirus cases'}
-            cases={dataByCountry.todayCases}
-            total={dataByCountry.cases}
-            onClick={(e) => {
-              setCaseTypeVal('cases');
-            }}
-          />
-          <InfoBox
-            active={caseTypeVal === 'recovered'}
-            title={'Recovered'}
-            cases={dataByCountry.todayRecovered}
-            total={dataByCountry.recovered}
-            onClick={(e) => {
-              setCaseTypeVal('recovered');
-            }}
-          />
-          <InfoBox
-            isRed
-            active={caseTypeVal === 'deaths'}
-            title={'Deaths'}
-            cases={dataByCountry.todayDeaths}
-            total={dataByCountry.deaths}
-            onClick={(e) => {
-              setCaseTypeVal('deaths');
-            }}
-          />
-        </div>
-        <Map
-          center={mapCenter}
-          zoom={mapZoom}
-          countries={mapCountries}
-          caseType={caseTypeVal}
-        />
+    <>
+      {/* style={{ margin: '10px 50px 0px 20px', textAlign: 'right' }} */}
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+          padding: '10px 50px 0px 0px',
+        }}
+      >
+        <Button
+          variant="outlined"
+          onClick={() => {
+            history.push('/user_dashboard');
+          }}
+          color="error"
+          style={{ marginRight: 10 }}
+        >
+          Dashboard
+        </Button>
+        <Button
+          variant="outlined"
+          onClick={() => {
+            history.push('/user_dashboard');
+          }}
+        >
+          Login
+        </Button>
       </div>
-      <div className="app__right">
-        <Card>
-          <CardContent>
-            <Table />
-            <LineGraph caseType={caseTypeVal} />
-          </CardContent>
-        </Card>
+
+      <div className="app">
+        <div className="app__left">
+          <div className="app__header">
+            <h1>Welcome to covid 19 tracker</h1>
+            <FormControl className="app__dropdown">
+              <Select
+                variant="outlined"
+                value={country}
+                onChange={onCountryChange}
+              >
+                <MenuItem value={'WorldWide'}>WorldWide</MenuItem>
+                {countries.map((country) => (
+                  <MenuItem value={country.name}>{country.name}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </div>
+          <div className="app__stats">
+            <InfoBox
+              isRed
+              active={caseTypeVal === 'cases'}
+              title={'Coronavirus cases'}
+              cases={dataByCountry.todayCases}
+              total={dataByCountry.cases}
+              onClick={(e) => {
+                setCaseTypeVal('cases');
+              }}
+            />
+            <InfoBox
+              active={caseTypeVal === 'recovered'}
+              title={'Recovered'}
+              cases={dataByCountry.todayRecovered}
+              total={dataByCountry.recovered}
+              onClick={(e) => {
+                setCaseTypeVal('recovered');
+              }}
+            />
+            <InfoBox
+              isRed
+              active={caseTypeVal === 'deaths'}
+              title={'Deaths'}
+              cases={dataByCountry.todayDeaths}
+              total={dataByCountry.deaths}
+              onClick={(e) => {
+                setCaseTypeVal('deaths');
+              }}
+            />
+          </div>
+          <Map
+            center={mapCenter}
+            zoom={mapZoom}
+            countries={mapCountries}
+            caseType={caseTypeVal}
+          />
+        </div>
+        <div className="app__right">
+          <Card>
+            <CardContent>
+              <Table />
+              <LineGraph caseType={caseTypeVal} />
+            </CardContent>
+          </Card>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

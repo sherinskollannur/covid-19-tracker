@@ -35,23 +35,22 @@ export default function UserDashboard(props) {
 
   return (
     <>
-      <Box sx={{ display: 'flex' }}>
-        <AppBar
-          position="fixed"
-          sx={{
-            width: `calc(100% - ${drawerWidth}px)`,
-            ml: `${drawerWidth}px`,
-          }}
-          // style={{ backgroundColor: 'red' }}
-          // className={classes.dashboard_header}
-        >
-          <Classes>
-            <Typography variant="h6" noWrap component="div">
-              <strong> User Dashboard</strong>
-            </Typography>
-          </Classes>
-        </AppBar>
-
+      <AppBar
+        position="fixed"
+        sx={{
+          width: `calc(100% - ${drawerWidth}px)`,
+          ml: `${drawerWidth}px`,
+        }}
+        // style={{ backgroundColor: 'red' }}
+        // className={classes.dashboard_header}
+      >
+        <Classes>
+          <Typography variant="h6" noWrap component="div">
+            <strong> User Dashboard</strong>
+          </Typography>
+        </Classes>
+      </AppBar>
+      <Box sx={{ display: 'flex', minHeight: '600px' }}>
         <Drawer
           sx={{
             width: drawerWidth,
@@ -67,49 +66,56 @@ export default function UserDashboard(props) {
           <Toolbar />
           <Divider />
           <List>
-            {['Vaccine  Needed', 'Order History', 'Contact Us'].map(
-              (text, index) => (
-                <ListItem key={text} disablePadding>
-                  <ListItemButton
-                    style={
-                      sliderBtnActive === text
-                        ? {
-                            backgroundColor: '#6d7870',
-                            color: 'white',
-                            textAlign: 'center',
-                            // borderRadius: 5,
-                            padding: 8,
-                          }
-                        : {
-                            backgroundColor: 'white',
-                            color: 'black',
-                            textAlign: 'center',
-                            // borderRadius: 5,
-                            padding: 8,
-                          }
+            {[
+              'Vaccine  Needed',
+              'Order History',
+              'Covid Tracker',
+              'Contact Us',
+              'Logout',
+            ].map((text, index) => (
+              <ListItem key={text} disablePadding>
+                <ListItemButton
+                  style={
+                    sliderBtnActive === text
+                      ? {
+                          backgroundColor: '#b3bdbd',
+                          color: 'black',
+                          textAlign: 'center',
+                          // borderRadius: 5,
+                          padding: 8,
+                        }
+                      : {
+                          backgroundColor: 'white',
+                          color: 'black',
+                          textAlign: 'center',
+                          // borderRadius: 5,
+                          padding: 8,
+                        }
+                  }
+                  onClick={(e) => {
+                    setSliderBtnActive(text);
+
+                    let routeVal;
+                    if (text === 'Vaccine  Needed') {
+                      routeVal = '/user_dashboard';
                     }
-                    onClick={(e) => {
-                      setSliderBtnActive(text);
+                    if (text === 'Order History') {
+                      routeVal = '/user_dashboard/order_history';
+                    }
+                    if (text === 'Contact Us') {
+                      routeVal = '/user_dashboard/contact_us';
+                    }
+                    if (text === 'Covid Tracker') {
+                      routeVal = '/';
+                    }
 
-                      let routeVal;
-                      if (text === 'Vaccine  Needed') {
-                        routeVal = '/user_dashboard';
-                      }
-                      if (text === 'Order History') {
-                        routeVal = '/user_dashboard/order_history';
-                      }
-                      if (text === 'Contact Us') {
-                        routeVal = '/user_dashboard/contact_us';
-                      }
-
-                      history.push(routeVal);
-                    }}
-                  >
-                    <ListItemText primary={text} />
-                  </ListItemButton>
-                </ListItem>
-              )
-            )}
+                    history.push(routeVal);
+                  }}
+                >
+                  <ListItemText primary={text} />
+                </ListItemButton>
+              </ListItem>
+            ))}
           </List>
           <Divider />
           {/* <List>
