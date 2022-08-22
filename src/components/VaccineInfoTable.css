@@ -1,0 +1,10 @@
+.tableLayout {
+  width: 100%;
+  /* overflow: hidden; */
+}
+
+/* @media (max-width: 600px) {
+  .tableLayout {
+    width: 60%;
+  }
+} */

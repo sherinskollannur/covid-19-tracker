@@ -9,15 +9,16 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import { Button } from '@mui/material';
 import { useHistory } from 'react-router-dom';
+import './VaccineInfoTable.css';
 
 const columns = [
-  { id: 'Country', label: 'Country', minWidth: 170 },
-  { id: 'Vaccine', label: 'Vaccine', minWidth: 100 },
+  { id: 'Country', label: 'Country', minWidth: 50 },
+  { id: 'Vaccine', label: 'Vaccine', minWidth: 50 },
   {
     id: 'Count',
     label: 'Count',
-    minWidth: 170,
-    align: 'right',
+    minWidth: 50,
+    align: 'left',
     format: (value) => value.toLocaleString('en-US'),
   },
   //   {
@@ -58,9 +59,9 @@ function VaccineInfoTable() {
   };
 
   return (
-    <div>
-      <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-        <TableContainer sx={{ maxHeight: 440 }}>
+    <div className="tableLayout">
+      <Paper>
+        <TableContainer sx={{ minHeight: 340 }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
@@ -78,8 +79,8 @@ function VaccineInfoTable() {
                   </TableCell>
                 ))}
                 <TableCell
-                  style={{ minWidth: 170, fontWeight: 900, fontSize: 18 }}
-                  align="right"
+                  style={{ minWidth: 50, fontWeight: 900, fontSize: 18 }}
+                  align="left"
                 >
                   Action
                 </TableCell>
@@ -107,9 +108,9 @@ function VaccineInfoTable() {
                         );
                       })}
 
-                      <TableCell align="right">
+                      <TableCell align="left">
                         <Button
-                          variant="contained"
+                          variant="outlined"
                           color="success"
                           width="10px"
                           onClick={() => {
